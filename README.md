@@ -13,8 +13,8 @@ A command-line tool for analyzing CSV files, written in Rust.
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/csva
-cd csva
+git clone https://github.com/arondubovszky/rust-csv-analyzer
+cd rust-csv-analyzer
 cargo build --release
 ```
 
@@ -22,8 +22,8 @@ cargo build --release
 
 ```bash
 # Basic file info
-./target/release/csva data.csv columns
-./target/release/csva data.csv rows
+./target/release/rust-csv-analyzer data.csv columns
+./target/release/rust-csv-analyzer data.csv rows
 
 # View data
 ./target/release/csva data.csv head 5
