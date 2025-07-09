@@ -22,8 +22,8 @@ cargo build --release
 
 ```bash
 # Basic file info
-./target/release/rust-csv-analyzer data.csv columns
-./target/release/rust-csv-analyzer data.csv rows
+./target/release/csva data.csv columns
+./target/release/csva data.csv rows
 
 # View data
 ./target/release/csva data.csv head 5
