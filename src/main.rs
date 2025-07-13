@@ -37,8 +37,8 @@ impl CsvFile {
         }
 
         let mut items = Vec::new();
+        //skipping the header
         for row in &rows[1..] {
-            //skipping the header
             let row_data: Vec<Item> = row
                 .split(',')
                 .enumerate()
@@ -200,6 +200,7 @@ impl CsvFile {
     fn rows(&self) {
         println!("Number of rows: {}", self.items.len());
     }
+    //pretty print for the whole file
     fn show(&self) {
         self.print_headers();
 
@@ -210,7 +211,24 @@ impl CsvFile {
             }
             println!();
         }
-    } //pretty print for the whole file
+    }
+    fn show_column(&self, col: &String) {
+        println!("{}", col);
+
+        if !self.columns_to_idx.contains_key(col) {
+            panic!("Column '{}' not found", col);
+        }
+
+        if self.items.is_empty() {
+            panic!("no data in the file");
+        }
+        let idx = self.columns_to_idx[col];
+
+        for row in &self.items {
+            print_item(&row[idx]);
+            println!();
+        }
+    }
     fn columns(&self) {
         println!("Columns: ");
         for (name, &is_num) in &self.column_data_types {
@@ -258,6 +276,7 @@ COMMANDS:
     columns              Show all columns and their data types
     rows                 Show total number of rows
     show                 Display the entire CSV file with colored output
+    show <column>        Displays the given column
     head [n]             Show first n rows (default: all rows)
     tail [n]             Show last n rows (default: all rows)
     avg <column>         Calculate average of numeric column
@@ -323,7 +342,13 @@ fn main() {
             };
             csv_file.tail(n);
         }
-        "show" => csv_file.show(),
+        "show" => {
+            if args.len() == 4 {
+                csv_file.show_column(&args[3]);
+            } else {
+                csv_file.show()
+            }
+        }
         "avg" => {
             if args.len() < 4 {
                 println!("usage: avg <column name>");
