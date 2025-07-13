@@ -212,11 +212,11 @@ impl CsvFile {
             println!();
         }
     }
-    fn show_column(&self, col: &String) {
+    fn show_column(&self, col: &String) -> Result<(), String> {
         println!("{}", col);
 
         if !self.columns_to_idx.contains_key(col) {
-            panic!("Column '{}' not found", col);
+            return Err(format!("Column '{}' not found", col));
         }
 
         if self.items.is_empty() {
@@ -228,6 +228,8 @@ impl CsvFile {
             print_item(&row[idx]);
             println!();
         }
+
+        Ok(())
     }
     fn columns(&self) {
         println!("Columns: ");
@@ -344,7 +346,10 @@ fn main() {
         }
         "show" => {
             if args.len() == 4 {
-                csv_file.show_column(&args[3]);
+                match csv_file.show_column(&args[3]) {
+                    Ok(()) => {}
+                    Err(e) => println!("Error: {}", e),
+                }
             } else {
                 csv_file.show()
             }
